@@ -54,72 +54,72 @@ Please see example.php for a sample script.
     
 Typically, you would need to do the following:
 
-1.  include 'System/Service/SC2Ranks.php'
-2.  instantiate a new System_Service_SC2Ranks object
-    * the constructor takes two parameters: $options and $httpClient. $options requires you pass
-      an 'appKey' or it will throw an exception. $httpClient is optional, but included if you have
-      subclassed Zend_Http_Client on your own. Below is a robust options array:
+```php
+include 'System/Service/SC2Ranks.php'
+```
+
+Instantiate a new System_Service_SC2Ranks object. The constructor takes two parameters: 
+$options and $httpClient. $options requires you pass an 'appKey' or it will throw an 
+exception. $httpClient is optional, but included if you have subclassed Zend_Http_Client 
+on your own. Below is a robust options array:
     
-    ```php
-    $options = array(
-        'appKey' => 'cstarleague.com',
-        'httpClient' => array(
-            'maxredirects' => 0,     // redirects to follow before failing
-            'timeout' => 60,         // maximum time to wait for a response - See a.
-            'keepalive' => true,     // See b.
-        ),
-        'charactersPerQuery' => 50,  // The default value
-    );
-    ```
+```php
+$options = array(
+    'appKey' => 'cstarleague.com',
+    'httpClient' => array(
+        'maxredirects' => 0,     // redirects to follow before failing
+        'timeout' => 60,         // maximum time to wait for a response - See a.
+        'keepalive' => true,     // See b.
+    ),
+    'charactersPerQuery' => 50,  // The default value
+);
+```
 
-3.  Pass an array of an array of character markers to the getMassBaseTeams function
-
-    * The function accepts the following marker formats:
+Pass an array of an array of character markers to the getMassBaseTeams function.
+The function accepts the following marker formats:
    
-    ```php     
-    $characters = array(
-        array('uri' => 'http://us.battle.net/sc2/en/profile/902213/1/VPSuppy/'),  // b.net URI
-        array('uri' => 'http://sc2ranks.com/us/2290485/heavonearth'),             // sc2r URI
-        array('name' => 'vtgiX', 'code' => 862, 'region' => 'us'),                // name + code
-    );
-    ```
+```php     
+$characters = array(
+    array('uri' => 'http://us.battle.net/sc2/en/profile/902213/1/VPSuppy/'),  // b.net URI
+    array('uri' => 'http://sc2ranks.com/us/2290485/heavonearth'),             // sc2r URI
+    array('name' => 'vtgiX', 'code' => 862, 'region' => 'us'),                // name + code
+);
+```
     
-    You may include both uri + name and code for redundancy. If you do not include a region, the
-    default region will be used (us). You can also pass a default region as the second parameter
-    to getMassBaseTeams
+You may include both uri + name and code for redundancy. If you do not include a region, the
+default region will be used (us). You can also pass a default region as the second parameter
+to getMassBaseTeams.
         
-    * The third and forth paramters to getMassBaseTeams are $bracketType and $isRandom.
-      $bracketType is an int indicating the bracket requested - 1 stands for 1vs1, 2 for 2vs2, and
-      so on. $isRandom is an int indicating if you are querying for pre-arranged teams in
-      the bracket. Note that for the 1vs1 bracket, teams can never be pre-arranged
+The third and forth paramters to getMassBaseTeams are $bracketType and $isRandom. 
+$bracketType is an int indicating the bracket requested - 1 stands for 1vs1, 2 for 2vs2, and 
+so on. $isRandom is an int indicating if you are querying for pre-arranged teams in
+the bracket. Note that for the 1vs1 bracket, teams can never be pre-arranged
 
-4.  Work on the return array of System_Service_SC2Ranks_Character. This convenience class exposes
-    the following methods:
+Work on the return array of System_Service_SC2Ranks_Character. This convenience class exposes
+the following methods:
 
-    * isValid:         returns true if the query returned character + team information
-    * getName
-    * getDivision
-    * getDivisionRank
-    * getLeague
-    * getPoints
-    * getWins
-    * getLosses
+* isValid - returns true if the query returned character + team information
+* getName
+* getDivision
+* getDivisionRank
+* getLeague
+* getPoints
+* getWins
+* getLosses
        
-    Please browse the source code for more information.
+Please browse the source code for more information.
        
-    * It is better to perform more queries with fewer charactersPerQuery than less queries with the
-      maximum number of charactersPerQuery. You are less likely to exceed the default timeout value
-      of 60 seconds and can better guarantee the API will return information for the characters you
-      query.
-       
-    * When performing several requests to the same host, it is highly recommended to enable the
-      'keepalive' configuration flag. This way, if the server supports keep-alive connections, the
-      connection to the server will only be closed once all requests are done and the Client object
-      is destroyed. This prevents the overhead of opening and closing TCP connections to the
-      server.
+* It is better to perform more queries with fewer charactersPerQuery than less queries with the
+  maximum number of charactersPerQuery. You are less likely to exceed the default timeout value
+  of 60 seconds and can better guarantee the API will return information for the characters you
+  query.
+* When performing several requests to the same host, it is highly recommended to enable the
+  'keepalive' configuration flag. This way, if the server supports keep-alive connections, the
+  connection to the server will only be closed once all requests are done and the Client object
+  is destroyed. This prevents the overhead of opening and closing TCP connections to the
+  server.
 
 Todo
 ----
-
 * Expose a query for character searching
 * Expose a method for scrapping historical data (by season) for inactive player accounts
