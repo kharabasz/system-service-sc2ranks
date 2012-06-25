@@ -1,0 +1,9 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="System_Service_SC2Ranks">
+            <file>Tests/CharacterTest.php</file>
+            <file>Tests/ResponseTest.php</file>
+            <file>Tests/SC2RanksTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
